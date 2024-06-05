@@ -81,7 +81,7 @@ ns.FService = function( fcConf, destinationApp ) {
 	return self;
 	
 	function FSink( ...args ) {
-		//log( 'FSink', args, 4 );
+		log( 'FSink', args, 4 );
 	}
 }
 
@@ -305,8 +305,8 @@ ns.FService.prototype.connect = function() {
 }
 
 ns.FService.prototype.handleService = function( event ) {
-	const self = this;
-	self.emit( event.type, event.data );
+	const self = this
+	self.emit( event.type, event.data )
 }
 
 ns.FService.prototype.handleConnOpen = function( fcInfo ) {
