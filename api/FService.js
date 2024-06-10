@@ -823,7 +823,7 @@ ns.FCWS.prototype.handleFCEvent = function( msgStr ) {
 		if ( null == event )
 			return;
 		
-		wsLog( 'parsed event', event, 4 );
+		//wsLog( 'parsed event', event, 4 );
 	}
 	
 	if ( self.logEvents && ( 'ping' != event.type ) && ( 'pong' != event.type ))
@@ -834,7 +834,7 @@ ns.FCWS.prototype.handleFCEvent = function( msgStr ) {
 
 ns.FCWS.prototype.parseToEvent = function( e ) {
 	const self = this;
-	wsLog( 'parseToEvent', e, 4 );
+	//wsLog( 'parseToEvent', e, 4 );
 	let oUId = null;
 	if ( e.originUserId )
 		oUId = e.originUserId;

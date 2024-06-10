@@ -14,6 +14,11 @@ ns.FCMCtrlProcess.prototype.init = function() {
 	const jConf = process.argv[ 2 ];
 	const fbConf = JSON.parse( jConf )
 	log( 'init', fbConf )
+	if ( !fbConf || !fbConf.serviceAccountPath ) {
+		self.exit()
+		return
+	}
+	
 	self.fbConf = fbConf
 	process.on( 'message', e => self.onMessage( e ))
 	
@@ -24,12 +29,10 @@ ns.FCMCtrlProcess.prototype.init = function() {
 	
 	// firebase
 	const serviceAccount = require( fbConf.serviceAccountPath )
-	log( 'serviceAccount', serviceAccount )
 	self.firebase = FBAdmin.initializeApp({
 		credential : FBAdmin.credential.cert( serviceAccount ),
 	})
 	self.msg = self.firebase.messaging()
-	log( 'msg', self.msg )
 }
 
 ns.FCMCtrlProcess.prototype.onMessage = function( event ) {
@@ -55,7 +58,10 @@ ns.FCMCtrlProcess.prototype.exit = function() {
 
 ns.FCMCtrlProcess.prototype.sendPushie = async function( pushMsg, tokens ) {
 	const self = this;
-	log( 'sendPushie', [ pushMsg, tokens ], 3 )
+	log( 'sendPushie', { 
+		push   : pushMsg, 
+		tokens : tokens, 
+	}, 3 )
 	
 	if ( tokens ) {
 		jMsg = JSON.stringify( pushMsg )
@@ -65,9 +71,9 @@ ns.FCMCtrlProcess.prototype.sendPushie = async function( pushMsg, tokens ) {
 			
 			return msg
 		})
-		log( 'all', all )
+		//log( 'all', all )
 		const res = await self.msg.sendAll( all )
-		log( 'result', res )
+		log( 'result', res, 3 )
 		return
 	}
 	
@@ -76,17 +82,17 @@ ns.FCMCtrlProcess.prototype.sendPushie = async function( pushMsg, tokens ) {
 
 ns.FCMCtrlProcess.prototype.handlePush = function( conf ) {
 	const self = this
+	const n = self.buildNotie( conf )
 	const msg = {
-		notification : self.buildNotie( conf ),
+		notification : n,
 		data         : conf.data,
 	}
 	
 	msg.android = self.buildAndy( conf )
 	
 	// enable when needed
-	//msg.apns = self.buildAPNS( conf )
+	msg.apns = self.buildAPNS( conf )
 	
-	log( 'pushie', msg )
 	self.sendPushie( msg, conf.tokens )
 }
 
@@ -111,6 +117,14 @@ ns.FCMCtrlProcess.prototype.buildAPNS = function( conf ) {
 	const self = this
 	const i = conf.ios
 	const n = {
+		headers: {
+            'apns-priority': '10',
+        },
+        payload: {
+            aps: {
+                sound: 'default',
+            }
+        },
 	}
 	
 	log( 'buildAPNS', n )

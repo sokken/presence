@@ -95,7 +95,7 @@ ns.FCMCtrl.prototype.init = function() {
 
 ns.FCMCtrl.prototype.handleFCPush = function( event ) {
 	const self = this
-	log( 'handleFCPush', event )
+	//log( 'handleFCPush', event )
 	self.send( event )
 }
 
