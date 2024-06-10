@@ -1,6 +1,8 @@
 const log = require( '../component/Log' )( 'FCMCtrlProcess' )
 const FBAdmin = require( 'firebase-admin' )
 
+const HE = require( 'he' )
+
 ns = {}
 
 ns.FCMCtrlProcess = function() {
@@ -134,7 +136,7 @@ ns.FCMCtrlProcess.prototype.buildAPNS = function( conf ) {
 ns.FCMCtrlProcess.prototype.buildNotie = function( conf ) {
 	const n = conf.notification
 	return {
-		title : n.title,
+		title : HE.decode( n.title ),
 		body  : n.body,
 	}
 }

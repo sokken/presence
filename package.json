@@ -5,6 +5,7 @@
   "dependencies": {
     "firebase-admin": "^12.1.1",
     "jimp"          : "^0.6.1",
+    "he"            : "^1.2.0",
     "mysql2"        : "^2.1.0",
     "nanomsg"       : "^4.1.0",
     "request"       : "^2.83.0",
