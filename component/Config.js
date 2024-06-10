@@ -38,14 +38,16 @@ var ns = {};
 		self.server = config.server;
 		self.shared = config.shared;
 		self.shared.wsHost = self.getWsHost();
+		self.firebase = config.firebase;
 		global.config = self;
 	}
 	
 	ns.Config.prototype.get = function() {
 		const self = this;
 		var conf = {
-			server : self.server,
-			shared : self.shared,
+			server   : self.server,
+			shared   : self.shared,
+			firebase : self.firebase,
 		};
 		return global.config;
 	}
