@@ -115,9 +115,14 @@ const shared = {
 	},
 };
 
+const firebase = {
+	serviceAccountPath : 'path/to/serviceAccountFile.json'
+}
+
 const conf = {
-	shared : shared,
-	server : server,
+	shared   : shared,
+	server   : server,
+	firebase : firebase,
 };
 
 module.exports = conf;

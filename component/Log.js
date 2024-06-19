@@ -20,7 +20,7 @@
 *****************************************************************************©*/
 
 var util = require( 'util' );
-var prefix = 'Presence > ';
+var prefix = 'P > ';
 const self = this;
 
 var inspectOpt = getInspectOpt();
@@ -63,8 +63,8 @@ function padding( prefix, args ) {
 
 module.exports = function( module ) {
 	var str = prefix + ( module ? module + ' > ' : '' );
-	return function() {
-		var args = Array.prototype.slice.call( arguments, 0 );
+	return function( ...args ) {
+		//var args = Array.prototype.slice.call( arguments, 0 );
 		padding( str, args );
 	}
 }
@@ -104,9 +104,9 @@ function getTimeString() {
 
 function getInspectOpt( depth, showHidden, colors ) {
 	var inspectObj = {
-		depth : depth || 1,
+		depth      : depth || 1,
 		showHidden : showHidden || true,
-		colors : colors || false,
+		colors     : colors || false,
 	};
 	return inspectObj;
 }

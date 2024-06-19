@@ -81,7 +81,7 @@ ns.FService = function( fcConf, destinationApp ) {
 	return self;
 	
 	function FSink( ...args ) {
-		//log( 'FSink', args, 4 );
+		log( 'FSink', args, 4 );
 	}
 }
 
@@ -305,8 +305,8 @@ ns.FService.prototype.connect = function() {
 }
 
 ns.FService.prototype.handleService = function( event ) {
-	const self = this;
-	self.emit( event.type, event.data );
+	const self = this
+	self.emit( event.type, event.data )
 }
 
 ns.FService.prototype.handleConnOpen = function( fcInfo ) {
@@ -823,7 +823,7 @@ ns.FCWS.prototype.handleFCEvent = function( msgStr ) {
 		if ( null == event )
 			return;
 		
-		wsLog( 'parsed event', event, 4 );
+		//wsLog( 'parsed event', event, 4 );
 	}
 	
 	if ( self.logEvents && ( 'ping' != event.type ) && ( 'pong' != event.type ))
@@ -834,7 +834,7 @@ ns.FCWS.prototype.handleFCEvent = function( msgStr ) {
 
 ns.FCWS.prototype.parseToEvent = function( e ) {
 	const self = this;
-	wsLog( 'parseToEvent', e, 4 );
+	//wsLog( 'parseToEvent', e, 4 );
 	let oUId = null;
 	if ( e.originUserId )
 		oUId = e.originUserId;

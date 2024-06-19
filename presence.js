@@ -20,15 +20,16 @@
 'use strict';
 
 require( './component/Config' ); // writes to global.config
-const log = require( './component/Log' )( 'main' );
+const log       = require( './component/Log' )( 'main' );
 const MySQLPool = require( './component/MysqlPool' );
-const IdCache = require( './component/IdentityCache' );
-const WorgCtrl = require( './component/WorgCtrl' );
-const UserCtrl = require( './component/UserCtrl' );
-const RoomCtrl = require( './component/RoomCtrl' );
-const NML = require( './component/NoMansLand' );
+const IdCache   = require( './component/IdentityCache' );
+const WorgCtrl  = require( './component/WorgCtrl' );
+const UserCtrl  = require( './component/UserCtrl' );
+const RoomCtrl  = require( './component/RoomCtrl' );
+const NML       = require( './component/NoMansLand' );
 
-const FService = require( './api/FService' );
+const FService  = require( './api/FService' );
+const FCMCtrl   = require( './firebase/FCMCtrl' );
 
 let service = null;
 const presence = {
@@ -52,6 +53,10 @@ function dbReady( ok ) {
 	presence.rooms = new RoomCtrl( presence.db, presence.idc, presence.worgs );
 	presence.users = new UserCtrl( presence.db, presence.idc, presence.worgs, presence.rooms );
 	
+	// other processes
+	presence.fcm = new FCMCtrl()
+	
+	// 
 	connectFC();
 }
 
