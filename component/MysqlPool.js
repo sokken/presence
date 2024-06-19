@@ -23,12 +23,14 @@ const mySQL = require( 'mysql2' );
 const fs = require( 'fs' );
 const log = require('./Log')( 'MysqlPool' );
 const pLog = require( './Log' )( 'mysql-patcher' );
+const MysqlStartup = require( './MysqlStartup' )
 const childProcess = require( 'child_process' );
 
 var ns = {};
 
 ns.MysqlPool = function( dbConf, doneBack ) {
 	const self = this;
+	log( 'dbConf', dbConf )
 	self.done = doneBack;
 	self.connectionLimit = 10;
 	self.pool = null;
@@ -77,10 +79,11 @@ ns.MysqlPool.prototype.init = function( dbConf ) {
 				return;
 			}
 			
-			self.runStartupProc( conn, procsDone );
+			self.runStartupProc( dbConf.startup, procsDone );
 		}
 		
 		function procsDone( success ) {
+			log( 'procs done' )
 			self.done( true );
 		}
 	}
@@ -98,14 +101,19 @@ ns.MysqlPool.prototype.applyUpdates = function( conn, doneBack ) {
 	new ns.Patches( conn, self.poolConf, doneBack );
 }
 
-ns.MysqlPool.prototype.runStartupProc = function( db, callback ) {
+ns.MysqlPool.prototype.runStartupProc = function( funList, callback ) {
 	const self = this;
-	callback( true );
-	return;
+	log( 'run startup procs', funList )
+	if ( !funList || !funList.length ) {
+		callback( true )
+		return
+	}
 	
-	db.query( "CALL purge_orphaned_settings()", null, queryBack );
-	function queryBack( res ) {
-		callback( true );
+	const startups = new MysqlStartup( self, funList, onDone )
+	
+	function onDone( err ) {
+		log( 'startups result', err )
+		callback( true )
 	}
 }
 
