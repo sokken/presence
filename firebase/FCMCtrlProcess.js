@@ -1,9 +1,31 @@
+'use strict';
+
+/*©agpl*************************************************************************
+*                                                                              *
+* This file is part of FRIEND UNIFYING PLATFORM.                               *
+*                                                                              *
+* This program is free software: you can redistribute it and/or modify         *
+* it under the terms of the GNU Affero General Public License as published by  *
+* the Free Software Foundation, either version 3 of the License, or            *
+* (at your option) any later version.                                          *
+*                                                                              *
+* This program is distributed in the hope that it will be useful,              *
+* but WITHOUT ANY WARRANTY; without even the implied warranty of               *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                 *
+* GNU Affero General Public License for more details.                          *
+*                                                                              *
+* You should have received a copy of the GNU Affero General Public License     *
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.        *
+*                                                                              *
+*****************************************************************************©*/
+
+
 const log = require( '../component/Log' )( 'FCMCtrlProcess' )
 const FBAdmin = require( 'firebase-admin' )
 
 const HE = require( 'he' )
 
-ns = {}
+const ns = {}
 
 ns.FCMCtrlProcess = function() {
 	const self = this
@@ -60,11 +82,12 @@ ns.FCMCtrlProcess.prototype.exit = function() {
 
 ns.FCMCtrlProcess.prototype.sendPushie = async function( pushMsg, tokens ) {
 	const self = this;
+	/*
 	log( 'sendPushie', { 
 		push   : pushMsg, 
 		tokens : tokens, 
 	}, 3 )
-	
+	*/
 	if ( tokens ) {
 		jMsg = JSON.stringify( pushMsg )
 		const all = tokens.map( token => {
@@ -75,7 +98,7 @@ ns.FCMCtrlProcess.prototype.sendPushie = async function( pushMsg, tokens ) {
 		})
 		//log( 'all', all )
 		const res = await self.msg.sendAll( all )
-		log( 'result', res, 3 )
+		//log( 'result', res, 3 )
 		return
 	}
 	
@@ -111,7 +134,7 @@ ns.FCMCtrlProcess.prototype.buildAndy = function( conf ) {
 		},
 	}
 	
-	log( 'buildAndy', n )
+	//log( 'buildAndy', n )
 	return n
 }
 
@@ -129,7 +152,7 @@ ns.FCMCtrlProcess.prototype.buildAPNS = function( conf ) {
         },
 	}
 	
-	log( 'buildAPNS', n )
+	//log( 'buildAPNS', n )
 	return n
 }
 

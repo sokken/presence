@@ -21,7 +21,7 @@
 
 const log = require('./Log')( 'MysqlStartup' );
 
-const HE = require( 'he' )
+const HE = require( 'he' ) // html entities fixer
 
 const ns = {}
 ns.MysqlStartup = function( db, funList, onEnd ) {
@@ -84,7 +84,14 @@ ns.MysqlStartup.prototype.htmlEntitiesCleanup = async function() {
 	return true
 	
 	function fix_thing( name ) {
-		const fixed = HE.decode( name )
+		let fixed = null
+		try {
+			fixed = HE.decode( name )
+		} catch( ex ) {
+			log( 'fix_thing ex', [ name, ex ])
+			fixed = name
+		}
+		
 		return fixed
 	}
 }

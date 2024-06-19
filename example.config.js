@@ -29,8 +29,8 @@ const server = {
 		pass    : 'presence_database_password',
 		name    : 'presence_database_name',
 		startup : [ // db maintenace functions to run during startup
-			'htmlEntitiesCleanup',
-			'purgeOrphanedSettings',
+			//'htmlEntitiesCleanup',
+			//'purgeOrphanedSettings',
 		],
 	},
 	tls : {
