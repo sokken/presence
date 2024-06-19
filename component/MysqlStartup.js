@@ -21,6 +21,8 @@
 
 const log = require('./Log')( 'MysqlStartup' );
 
+const HE = require( 'he' )
+
 const ns = {}
 ns.MysqlStartup = function( db, funList, onEnd ) {
 	const self = this
@@ -82,11 +84,8 @@ ns.MysqlStartup.prototype.htmlEntitiesCleanup = async function() {
 	return true
 	
 	function fix_thing( name ) {
-		log( 'fix thing', name )
-		if ( 'asd3' == name )
-			name = 'asd2'
-		
-		return name
+		const fixed = HE.decode( name )
+		return fixed
 	}
 }
 
