@@ -26,6 +26,9 @@ const Account = require( './Account' );
 const Guest = require( './GuestAccount' );
 const FService = require( '../api/FService' );
 
+const HE = require( 'he' ) // html entities fixer
+
+
 const ns = {};
 ns.UserCtrl = function(
 	dbPool,
@@ -485,6 +488,20 @@ ns.UserCtrl.prototype.handleWorgRegenerate = function( affectedAccIds, added, re
 
 ns.UserCtrl.prototype.normalizeFUser = function( fUser ) {
 	const self = this;
+	let name = fUser.fullname || fUser.FullName || null
+	// fix names hecked up with html entities by friendcore/doffice/something
+	if ( name ) {
+		let fix = null
+		try {
+			fix = HE.decode( name )
+		} catch( ex ) {
+			log( 'normalizeUser HE.decode ex', [ name, ex ])
+			fix = name
+		}
+		
+		name = fix
+	}
+	
 	const id = {
 		clientId    : null,
 		fUserId     : fUser.userid || fUser.UniqueId || null,
@@ -492,7 +509,7 @@ ns.UserCtrl.prototype.normalizeFUser = function( fUser ) {
 		fLastUpdate : ( fUser.lastupdate != null ) ? parseInt( fUser.lastupdate ) : null,
 		fIsDisabled : !!fUser.isdisabled,
 		isAdmin     : ( 'Admin' === fUser.Level ),
-		name        : fUser.fullname || fUser.FullName || null,
+		name        : name,
 		avatar      : null,
 	};
 	

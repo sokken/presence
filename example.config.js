@@ -22,12 +22,16 @@
 
 const server = {
 	mysql : {
-		socket : null,
-		host   : 'presence_database_host',
-		port   : 3306,
-		user   : 'presence_database_user',
-		pass   : 'presence_database_password',
-		name   : 'presence_database_name',
+		socket  : null,
+		host    : 'presence_database_host',
+		port    : 3306,
+		user    : 'presence_database_user',
+		pass    : 'presence_database_password',
+		name    : 'presence_database_name',
+		startup : [ // db maintenace functions to run during startup
+			//'htmlEntitiesCleanup',
+			//'purgeOrphanedSettings',
+		],
 	},
 	tls : {
 		keyPath  : 'path_to_key.pem',

@@ -10,6 +10,9 @@ DELIMITER //
 #
 DROP PROCEDURE IF EXISTS set_last_patch_version;
 
+# MAINTENACE
+DROP PROCEDURE IF EXISTS purge_orphaned_settings;
+
 # STATISTICS
 DROP PROCEDURE IF EXISTS stats_user_relation_date;
 DROP PROCEDURE IF EXISTS stats_user_chats_date;
@@ -21,6 +24,7 @@ DROP PROCEDURE IF EXISTS account_read_id;
 DROP PROCEDURE IF EXISTS account_read_fuserid;
 DROP PROCEDURE IF EXISTS account_read_fusername;
 DROP PROCEDURE IF EXISTS account_read_alphanum;
+DROP PROCEDURE IF EXISTS account_read_full;
 DROP PROCEDURE IF EXISTS account_search;
 DROP PROCEDURE IF EXISTS account_update;
 DROP PROCEDURE IF EXISTS account_delete;
@@ -161,6 +165,16 @@ BEGIN
 END//
 
 #
+# MAINTENACE
+#
+
+CREATE PROCEDURE purge_orphaned_settings(
+)
+BEGIN
+SELECT 'DEPRECATED' AS VALUE;
+END//
+
+#
 # STATS
 #
 
@@ -285,6 +299,13 @@ CREATE PROCEDURE account_read_alphanum()
 BEGIN
 SELECT a.clientId FROM account AS a
 ORDER BY a.name ASC;
+END//
+
+#
+#
+CREATE PROCEDURE account_read_full()
+BEGIN
+SELECT * FROM account;
 END//
 
 #
