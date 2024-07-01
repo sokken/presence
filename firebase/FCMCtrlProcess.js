@@ -89,7 +89,7 @@ ns.FCMCtrlProcess.prototype.sendPushie = async function( pushMsg, tokens ) {
 	}, 3 )
 	*/
 	if ( tokens ) {
-		jMsg = JSON.stringify( pushMsg )
+		const jMsg = JSON.stringify( pushMsg )
 		const all = tokens.map( token => {
 			const msg = JSON.parse( jMsg )
 			msg.token = token
