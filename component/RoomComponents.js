@@ -1318,8 +1318,10 @@ ns.Chat.prototype.handleDelete = async function( event, userId ) {
 	if ( null == msg )
 		return error( 'ERR_NO_MESSAGE' );
 	
-	if ( msg.roomId != self.roomId )
+	if ( msg.roomId != self.roomId ) {
+		cLog( 'handleDelete roomid fail', [ event, msg, self.roomId ] )
 		return error( 'ERR_DELETE_NOT_ALLOWED' );
+	}
 	
 	const lastList = await self.log.getLast();
 	const lastLog = lastList[ 0 ];
