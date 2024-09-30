@@ -97,7 +97,7 @@ ns.FCMCtrlProcess.prototype.sendPushie = async function( pushMsg, tokens ) {
 			return msg
 		})
 		//log( 'all', all )
-		const res = await self.msg.sendAll( all )
+		const res = await self.msg.sendEach( all )
 		//log( 'result', res, 3 )
 		return
 	}
