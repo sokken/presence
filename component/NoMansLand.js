@@ -463,7 +463,7 @@ ns.NoMansLand.prototype.setupSession = async function( conf, clientId ) {
 		return false;
 	}
 	
-	await self.userCtrl.addAccount( session, conf );
+	await self.userCtrl.setupAccount( session, conf );
 	return true;
 }
 

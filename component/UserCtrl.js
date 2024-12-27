@@ -99,8 +99,9 @@ ns.UserCtrl.prototype.refresh = async function( fUserList ) {
 	}
 }
 
-ns.UserCtrl.prototype.addAccount = async function( session, conf ) {
+ns.UserCtrl.prototype.setupAccount = async function( session, conf ) {
 	const self = this;
+	log( 'setupAccount', conf )
 	const accId = conf.clientId;
 	if ( self.accounts[ accId ])
 		return;
@@ -498,6 +499,9 @@ ns.UserCtrl.prototype.normalizeFUser = function( fUser ) {
 			log( 'normalizeUser HE.decode ex', [ name, ex ])
 			fix = name
 		}
+		
+		if ( fix != name ) 
+			log( 'fixed name', [ name, fix ])
 		
 		name = fix
 	}
