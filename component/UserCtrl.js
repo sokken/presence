@@ -109,6 +109,9 @@ ns.UserCtrl.prototype.setupAccount = async function( session, conf ) {
 	const worgs = conf.workgroups;
 	delete conf.workgroups;
 	
+	if ( conf.name )
+		conf.name = self.fixHTMLEnts( conf.name )
+	
 	conf = await self.idc.update( conf );
 	self.worgs.addUser( accId, worgs );
 	
@@ -491,20 +494,8 @@ ns.UserCtrl.prototype.normalizeFUser = function( fUser ) {
 	const self = this;
 	let name = fUser.fullname || fUser.FullName || null
 	// fix names hecked up with html entities by friendcore/doffice/something
-	if ( name ) {
-		let fix = null
-		try {
-			fix = HE.decode( name )
-		} catch( ex ) {
-			log( 'normalizeUser HE.decode ex', [ name, ex ])
-			fix = name
-		}
-		
-		if ( fix != name ) 
-			log( 'fixed name', [ name, fix ])
-		
-		name = fix
-	}
+	if ( name )
+		name = self.fixHTMLEnts( name )
 	
 	const id = {
 		clientId    : null,
@@ -529,6 +520,25 @@ ns.UserCtrl.prototype.normalizeFUser = function( fUser ) {
 	}
 	
 	return id;
+}
+
+ns.UserCtrl.prototype.fixHTMLEnts = function( name ) {
+	const self = this
+	if ( !name )
+		return name
+	
+	let fix = null
+	try {
+		fix = HE.decode( name )
+	} catch( ex ) {
+		log( 'normalizeUser HE.decode ex', [ name, ex ])
+		fix = name
+	}
+	
+	if ( fix != name ) 
+		log( 'fixed name', [ name, fix ])
+	
+	return fix
 }
 
 module.exports = ns.UserCtrl;
